@@ -8,13 +8,14 @@ use utf8;
 
 BEGIN {
 	$IO::Detect::AUTHORITY = 'cpan:TOBYINK';
-	$IO::Detect::VERSION   = '0.001';
+	$IO::Detect::VERSION   = '0.002';
 }
 
 use Sub::Exporter -setup => {
 	exports => [
 		qw( is_filehandle is_filename is_fileuri ),
 		qw( FileHandle FileName FileUri ),
+		ducktype => \&_build_ducktype,
 	],
 	groups => {
 		default    => [qw( is_filehandle is_filename is_fileuri )],
@@ -31,12 +32,19 @@ sub _ducktype
 	my ($object, $methods) = @_;
 	return unless blessed $object;
 	
-	foreach (@{ $methods || [] })
+	foreach my $m (@{ $methods || [] })
 	{
-		return unless $object->can($_);
+		return unless $object->can($m);
 	}
 	
 	return true;
+}
+
+sub _build_ducktype
+{
+	my ($class, $name, $arg) = @_;
+	my $methods = $arg->{methods};
+	return sub (_) { _ducktype(shift, $methods) };
 }
 
 sub is_filehandle (_)
@@ -67,16 +75,15 @@ sub is_filehandle (_)
 	return true if blessed $fh && $fh->DOES('IO::All');
 	
 	state $expected_methods = [qw(
-		close eof fcntl fileno getc getline getlinesioctl read print stat
+		close eof fcntl fileno getc getline getlines ioctl read print stat
 	)];
 	return _ducktype $fh, $expected_methods; 
 }
 
 sub _oneline ($)
 {
-	my $str = shift;
-	my @bits = split /\r?\n|\r/, $str;
-	scalar(@bits)==1;
+	my @bits = split /\r?\n|\r/, shift;
+	!!(@bits==1);
 }
 
 sub is_filename (_)
@@ -84,8 +91,10 @@ sub is_filename (_)
 	my $f = shift;
 	return true if blessed $f && $f->DOES('IO::All');
 	return true if blessed $f && $f->DOES('Path::Class::Entity');
-	return true if blessed $f && overload::Method($f, q[""]) && length "$f" && _oneline $f;
-	return true if defined $f && (!ref $f) && length $f && _oneline $f;
+	return ( length "$f" and _oneline "$f" )
+		if blessed $f && overload::Method($f, q[""]);
+	return ( length $f and _oneline $f )
+		if defined $f && !ref $f;
 	return;
 }
 
@@ -269,6 +278,32 @@ falling back to C<is_filename>.
 		when (FileName)    { ... }
 		default            { die "$file is not a file!" }
 	}
+
+=head2 Duck Typing
+
+In some cases you might be happy to accept something less than a
+complete file handle. In this case you can import a customised
+"duck type" test...
+
+	use IO::Detect
+		-default,
+		ducktype => {
+			-as     => 'is_slurpable',
+			methods => [qw(getlines close)],
+		};
+	
+	sub do_something_with_a_file
+	{
+		my $f = shift;
+		if ( is_filehandle $f or is_slurpable $f )
+			{ ... }
+		elsif ( is_filename $f )
+			{ ... }
+	}
+
+Duck type test functions only test that the argument is blessed
+and can do all of the specified methods. They don't test any other
+aspect of "filehandliness".
 
 =head1 BUGS
 

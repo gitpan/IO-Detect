@@ -14,12 +14,12 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 7003cadd2de6704ea85f9c43a76393fb9a87a3bf Changes
+SHA1 ff960968ad7ad6be40b7c177d7eb759f7f924345 Changes
 SHA1 cc087c3dd6e1b519c680e68cd0231735a68300a0 LICENSE
-SHA1 a0bb446152490556054ad1f366bbe4064ffbb69e MANIFEST
-SHA1 346a6210eaa13f25f8d9cb4cac07bf7e43a01170 META.yml
+SHA1 407ca6f3f2bbe8bf0d6d297b18a385f9b03eeaf9 MANIFEST
+SHA1 4389c50b94dd0dff51dd99039d5be60dcfdb102b META.yml
 SHA1 aa10c00d7d08978b8fee704d7824ba5d317d9e8f Makefile.PL
-SHA1 9c3d65fa6f0d065814cc0c487fa7a808d71cf08d README
+SHA1 4dca0340c7930d0f30422926f408ba73929faa0b README
 SHA1 06c410f05488c1612ed66b06d3a86b2580581e4a inc/Module/AutoInstall.pm
 SHA1 8a924add836b60fb23b25c8506d45945e02f42f4 inc/Module/Install.pm
 SHA1 61ab1dd37e33ddbe155907ce51df8a3e56ac8bbf inc/Module/Install/AutoInstall.pm
@@ -40,20 +40,21 @@ SHA1 0e0eed2e69d9583081868cf4f220068d0a018568 inc/Scalar/Util.pm
 SHA1 feb933cefe2e3762e8322bd6071a2499f3440da1 inc/YAML/Tiny.pm
 SHA1 8105c0510a773b56840995fb4dd2dc64fe9ddaee inc/unicore/Name.pm
 SHA1 36df501c7c9b73c282c5174ed54d8283b2f2cbf2 inc/utf8.pm
-SHA1 93cfc4f06fd0c1d7254553aec0400cf17f8df7d9 lib/IO/Detect.pm
-SHA1 4460937b8edb61c0a7e13b30ee0b439e6b8235d2 meta/changes.pret
+SHA1 eef1529aa536bb1c1606fddbee6ccd6f98967821 lib/IO/Detect.pm
+SHA1 daf84653198f58b00a0def5982ca8b77f6d9be1f meta/changes.pret
 SHA1 5c511179f8993bbbbcc33eba15ad8b9e24ac8768 meta/doap.pret
 SHA1 aa2f64b669a65c574fbe5472a64607100a4b735a meta/makefile.pret
 SHA1 ddf959c45dcc107436c07d991ecfe096c1e1eca1 t/01basic.t
 SHA1 b9d56abffe8d5f484815fdce54ac927e345f114b t/02filehandles.t
 SHA1 7ada2d25d65a033fc687f75843ebeee0938df0bf t/03filenames.t
 SHA1 2a3477908e48ef279d464666e8221c8247abc387 t/04fileuris.t
+SHA1 e542e02ee0f653c4bb391e8a40c8b2cf808827dc t/05ducktype.t
 SHA1 b9e64a075a035805feccbaf121af85eacb347cb0 t/11ioall.t
 SHA1 6fab99b2d69575cf0b1b5933a6ff11df45072ac2 t/12pathclass.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk/62uIACgkQzr+BKGoqfTmKoQCcDUaltxvwM/xbEkztKQfR0dWE
-6AUAnAxMhMaPq5sp91qH7l4xEwsNafgd
-=++Z9
+iEYEARECAAYFAk/7VrQACgkQzr+BKGoqfTmqZACfYhEfm3Qfof9NNPL9b4r+sUYY
+wN0AnRv4x1L+sVULn9z/yD12UT5Mm4MI
+=N3Ml
 -----END PGP SIGNATURE-----

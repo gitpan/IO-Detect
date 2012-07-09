@@ -4,3 +4,10 @@
 	issued  2012-07-09;
 	label   "Initial release".
 
+`IO-Detect 0.002 cpan:TOBYINK`
+	issued  2012-07-09;
+	changeset [
+		item "Add space between two words in qw() list."^^Bugfix;
+		item "Export configurable ducktype function."^^Addition;
+	].
+

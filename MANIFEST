@@ -32,6 +32,7 @@ t/01basic.t
 t/02filehandles.t
 t/03filenames.t
 t/04fileuris.t
+t/05ducktype.t
 t/11ioall.t
 t/12pathclass.t
 SIGNATURE                                Public-key signature (added by MakeMaker)

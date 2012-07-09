@@ -31,4 +31,4 @@ resources:
   homepage: https://metacpan.org/release/IO-Detect
   license: http://dev.perl.org/licenses/
   repository: https://bitbucket.org/tobyink/p5-io-detect
-version: 0.001
+version: 0.002
