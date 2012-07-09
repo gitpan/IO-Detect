@@ -1,0 +1,24 @@
+# This file contains general metadata about the project.
+
+@prefix : <http://usefulinc.com/ns/doap#>.
+
+`IO-Detect`
+	:programming-language "Perl" ;
+	:shortdesc            "is this a frickin' filehandle or what?!";
+	:homepage             <https://metacpan.org/release/IO-Detect>;
+	:download-page        <https://metacpan.org/release/IO-Detect>;
+	seealso               <http://www.perlmonks.org/?node_id=980665>;
+	:bug-database         <http://rt.cpan.org/Dist/Display.html?Queue=IO-Detect>;
+	:repository           [ a :HgRepository; :browse <https://bitbucket.org/tobyink/p5-io-detect> ];
+	:created              2012-07-09;
+	:license              <http://dev.perl.org/licenses/>;
+	:maintainer           cpan:TOBYINK;
+	:developer            cpan:TOBYINK.
+
+<http://dev.perl.org/licenses/>
+	dc:title  "the same terms as the perl 5 programming language system itself".
+
+cpan:TOBYINK
+	foaf:name  "Toby Inkster";
+	foaf:mbox  <mailto:tobyink@cpan.org>.
+

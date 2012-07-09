@@ -1,0 +1,10 @@
+# This file provides instructions for packaging.
+
+`IO-Detect`
+	perl_version_from m`IO::Detect`;
+	version_from      m`IO::Detect`;
+	readme_from       m`IO::Detect`;
+	requires          p`Sub::Exporter`;
+	requires          p`URI::file`;
+	test_requires     p`Test::More 0.61`  .
+
