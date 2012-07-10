@@ -11,3 +11,8 @@
 		item "Export configurable ducktype function."^^Addition;
 	].
 
+`IO-Detect 0.003 cpan:TOBYINK`
+	issued  2012-07-10;
+	changeset [
+		item "Re-implementation of IO::Detect::_oneline."^^Bugfix;
+	].

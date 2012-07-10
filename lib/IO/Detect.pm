@@ -8,7 +8,7 @@ use utf8;
 
 BEGIN {
 	$IO::Detect::AUTHORITY = 'cpan:TOBYINK';
-	$IO::Detect::VERSION   = '0.002';
+	$IO::Detect::VERSION   = '0.003';
 }
 
 use Sub::Exporter -setup => {
@@ -82,8 +82,7 @@ sub is_filehandle (_)
 
 sub _oneline ($)
 {
-	my @bits = split /\r?\n|\r/, shift;
-	!!(@bits==1);
+	!! ( $_[0] !~ /\r?\n|\r/s )
 }
 
 sub is_filename (_)
