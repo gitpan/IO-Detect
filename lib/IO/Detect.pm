@@ -8,7 +8,7 @@ use utf8;
 
 BEGIN {
 	$IO::Detect::AUTHORITY = 'cpan:TOBYINK';
-	$IO::Detect::VERSION   = '0.003';
+	$IO::Detect::VERSION   = '0.004';
 }
 
 use Sub::Exporter -setup => {

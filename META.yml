@@ -23,6 +23,7 @@ no_index:
     - t
     - xt
 requires:
+  Scalar::Util: 1.24
   Sub::Exporter: 0
   URI::file: 0
   perl: 5.10.0
@@ -31,4 +32,4 @@ resources:
   homepage: https://metacpan.org/release/IO-Detect
   license: http://dev.perl.org/licenses/
   repository: https://bitbucket.org/tobyink/p5-io-detect
-version: 0.003
+version: 0.004

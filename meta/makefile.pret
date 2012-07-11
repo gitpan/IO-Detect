@@ -4,6 +4,7 @@
 	perl_version_from m`IO::Detect`;
 	version_from      m`IO::Detect`;
 	readme_from       m`IO::Detect`;
+	requires          p`Scalar::Util 1.24`;
 	requires          p`Sub::Exporter`;
 	requires          p`URI::file`;
 	test_requires     p`Test::More 0.61`  .
