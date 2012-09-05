@@ -22,3 +22,10 @@
 	changeset [
 		item "Require version 1.24 of Scalar::Util."^^Packaging;
 	].
+
+`IO-Detect 0.005 cpan:TOBYINK`
+	issued  2012-09-05;
+	changeset [
+		item "Perl 5.8 compatibility."^^Change;
+		item "as_filehandle function."^^Addition;
+	].

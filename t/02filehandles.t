@@ -50,8 +50,6 @@ my @handles = (
 	[1, "socket",      IO::Socket::INET->new(LocalAddr => sprintf('localhost:%d', 10000 + rand 20000))],
 );
 
-plan tests => 2 * scalar @handles;
-
 foreach (@handles)
 {
 	my ($truth, $label, $fh) = @$_;
@@ -66,16 +64,21 @@ foreach (@handles)
 	}
 }
 
-foreach (@handles)
+if ($] >= 5.010)
 {
-	my ($truth, $label, $fh) = @$_;
-	
-	if ($truth)
+	foreach (@handles)
 	{
-		ok($fh ~~ FileHandle, "smart match positive for $label");
-	}
-	else
-	{
-		ok(not($fh ~~ FileHandle), "smart match negitive for $label");
+		my ($truth, $label, $fh) = @$_;
+		
+		if ($truth)
+		{
+			eval q[ ok($fh ~~ FileHandle, "smart match positive for $label") ];
+		}
+		else
+		{
+			eval q[ ok(not($fh ~~ FileHandle), "smart match negitive for $label") ];
+		}
 	}
 }
+
+done_testing();

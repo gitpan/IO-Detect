@@ -1,8 +1,8 @@
 use strict;
 use Test::More;
 BEGIN {
-	eval "use IO::All 'io'; 1"
-	or plan skip_all => "Need IO::All for this test.";
+	eval("use IO::All 'io'; 1") && ($] >= 5.010)
+	or plan skip_all => "Need IO::All and Perl 5.10 for this test.";
 };
 
 use IO::Detect;

@@ -1,6 +1,6 @@
 package IO::Detect;
 
-use 5.010;
+use 5.008;
 use constant { false => !1, true => !0 };
 use strict;
 use warnings;
@@ -8,14 +8,26 @@ use utf8;
 
 BEGIN {
 	$IO::Detect::AUTHORITY = 'cpan:TOBYINK';
-	$IO::Detect::VERSION   = '0.004';
+	$IO::Detect::VERSION   = '0.005';
+	
+	*UNIVERSAL::DOES = sub { shift->isa(@_) }
+		unless UNIVERSAL->can('DOES');
+}
+
+# This is kinda dumb, but Perl 5.8 doesn't grok the _ prototype.
+BEGIN {
+	if ($] < 5.010)
+		{ eval "sub $_ (\$);" for qw(is_filehandle is_fileuri is_filename) }
+	else
+		{ eval "sub $_ (_);" for qw(is_filehandle is_fileuri is_filename) }
 }
 
 use Sub::Exporter -setup => {
 	exports => [
 		qw( is_filehandle is_filename is_fileuri ),
 		qw( FileHandle FileName FileUri ),
-		ducktype => \&_build_ducktype,
+		ducktype      => \&_build_ducktype,
+		as_filehandle => \&_build_as_filehandle,
 	],
 	groups => {
 		default    => [qw( is_filehandle is_filename is_fileuri )],
@@ -25,7 +37,16 @@ use Sub::Exporter -setup => {
 
 use overload qw<>;
 use Scalar::Util qw< blessed openhandle reftype >;
+use Carp qw<croak>;
 use URI::file;
+
+sub _subpt (&;$)
+{
+	my ($code, $proto) = @_;
+	$proto =~ s/_/\$/g if $] < 5.010;
+	no warnings;
+	return &Scalar::Util::set_prototype($code, $proto);
+}
 
 sub _ducktype
 {
@@ -44,18 +65,22 @@ sub _build_ducktype
 {
 	my ($class, $name, $arg) = @_;
 	my $methods = $arg->{methods};
-	return sub (_) { _ducktype(shift, $methods) };
+	return _subpt { _ducktype((@_?shift:$_), $methods) } '_';
 }
 
-sub is_filehandle (_)
+my $expected_methods = [
+	qw(close eof fcntl fileno getc getline getlines ioctl read print stat)
+];
+*is_filehandle = _subpt
 {
-	my $fh = shift;
+	my $fh = @_ ? shift : $_;
 	
 	return true if openhandle $fh;
 	
 	# Logic from IO::Handle::Util
 	{
-		my $reftype = reftype($fh) // '';
+		my $reftype = reftype($fh);
+		$reftype = '' unless defined $reftype;
 		
 		if ($reftype eq 'IO'
 		or  $reftype eq 'GLOB' && *{$fh}{IO})
@@ -74,20 +99,17 @@ sub is_filehandle (_)
 	return true if blessed $fh && $fh->DOES('FileHandle');
 	return true if blessed $fh && $fh->DOES('IO::All');
 	
-	state $expected_methods = [qw(
-		close eof fcntl fileno getc getline getlines ioctl read print stat
-	)];
 	return _ducktype $fh, $expected_methods; 
-}
+} '_';
 
 sub _oneline ($)
 {
 	!! ( $_[0] !~ /\r?\n|\r/s )
 }
 
-sub is_filename (_)
+*is_filename = _subpt
 {
-	my $f = shift;
+	my $f = @_ ? shift : $_;
 	return true if blessed $f && $f->DOES('IO::All');
 	return true if blessed $f && $f->DOES('Path::Class::Entity');
 	return ( length "$f" and _oneline "$f" )
@@ -95,23 +117,53 @@ sub is_filename (_)
 	return ( length $f and _oneline $f )
 		if defined $f && !ref $f;
 	return;
-}
+} '_';
 
-sub is_fileuri (_)
+*is_fileuri = _subpt
 {
-	my $f = shift;
+	my $f = @_ ? shift : $_;
 	return $f if blessed $f && $f->DOES('URI::file');
 	return URI::file->new($f->uri) if blessed $f && $f->DOES('RDF::Trine::Node::Resource');
 	return URI::file->new($f) if $f =~ m{^file://\S+}i;
 	return;
+} '_';
+
+
+sub _build_as_filehandle
+{
+	my ($class, $name, $arg) = @_;
+	my $default_mode = $arg->{mode} || '<';
+	
+	return _subpt
+	{
+		my $f = @_ ? shift : $_;
+		return $f if is_filehandle($f);
+		
+		if (my $uri = is_fileuri($f))
+			{ $f = $uri->file }
+		
+		my $mode = shift || $default_mode;
+		open my $fh, $mode, $f
+			or croak "Cannot open '$f' with mode '$mode': $!, died";
+		return $fh;
+	} '_;$'
 }
+
+*as_filehandle = __PACKAGE__->_build_as_filehandle('as_filehandle', +{});
 
 {
 	package IO::Detect::SmartMatcher;
+	BEGIN {
+		$IO::Detect::SmartMatcher::AUTHORITY = 'cpan:TOBYINK';
+		$IO::Detect::SmartMatcher::VERSION   = '0.005';
+	}
 	use Scalar::Util qw< blessed >;
+	use overload (); no warnings 'overload';  # '~~' unavailable in Perl 5.8
 	use overload
 		'""'     => 'to_string',
 		'~~'     => 'check',
+		'=='     => 'check',
+		'eq'     => 'check',
 		fallback => 1;
 	sub check
 	{
@@ -133,29 +185,9 @@ sub is_fileuri (_)
 	}
 }
 
-sub FileHandle ()
-{
-	state $t = IO::Detect::SmartMatcher::->new(
-		FileHandle => \&is_filehandle,
-	);
-	$t;
-}
-
-sub FileName ()
-{
-	state $t = IO::Detect::SmartMatcher::->new(
-		FileName => \&is_filename,
-	);
-	$t;
-}
-
-sub FileUri ()
-{
-	state $t = IO::Detect::SmartMatcher::->new(
-		FileUri => \&is_fileuri,
-	);
-	$t;
-}
+use constant FileHandle => IO::Detect::SmartMatcher::->new(FileHandle => \&is_filehandle);
+use constant FileName   => IO::Detect::SmartMatcher::->new(FileName   => \&is_filename);
+use constant FileUri    => IO::Detect::SmartMatcher::->new(FileUri    => \&is_fileuri);
 
 true;
 
@@ -231,6 +263,24 @@ strings and objects that overload stringification.
 This function actually returns an "interesting value of true". The
 value returned is a L<URI::file> object.
 
+=item C<< as_filehandle $thing, $mode >>
+
+Returns $thing if it is a filehandle; otherwise opens it with mode
+$mode (croaking if it cannot be opened). $mode defaults to "<" (read
+access).
+
+This function is not exported by default, but needs to be requested
+explicitly:
+
+	use IO::Detect qw(as_filehandle);
+
+You may even specify a different default mode, or import it several
+times with different names:
+
+	use IO::Detect 
+	  as_filehandle => { -as => 'as_filehandle_read',  mode => '<' },
+	  as_filehandle => { -as => 'as_filehandle_write', mode => '>' };
+
 =back
 
 =head2 Smart Matching
@@ -262,6 +312,9 @@ Note that there does exist a L<FileHandle> package in Perl core. This
 module attempts to do the right thing so that C<< FileHandle->new >>
 still works, but there are conveivably places this could go wrong, or
 be plain old confusing.
+
+Although C<is_filehandle> and its friends support Perl 5.8 and above,
+smart match is only available in Perl 5.10 onwards.
 
 =head2 Precedence
 
@@ -318,6 +371,7 @@ executable code.
 Various other modules that may be of interest, in no particular
 order...
 L<Scalar::Util>,
+L<Scalar::Does>,
 L<FileHandle>,
 L<IO::Handle>,
 L<IO::Handle::Util>,

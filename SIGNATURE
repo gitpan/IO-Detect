@@ -14,12 +14,12 @@ not run its Makefile.PL or Build.PL.
 -----BEGIN PGP SIGNED MESSAGE-----
 Hash: SHA1
 
-SHA1 4a5f56259a6f2d8c218d404da5733a02fc30d3d5 Changes
+SHA1 f596e25feab3c59ca095da6b8864876a623bb953 Changes
 SHA1 cc087c3dd6e1b519c680e68cd0231735a68300a0 LICENSE
 SHA1 407ca6f3f2bbe8bf0d6d297b18a385f9b03eeaf9 MANIFEST
-SHA1 f05b88d316616b895f428f8d75088d32c33fe9b7 META.yml
+SHA1 d02f89357f96d52e1248f97cf4d6a9b7012b4125 META.yml
 SHA1 aa10c00d7d08978b8fee704d7824ba5d317d9e8f Makefile.PL
-SHA1 4dca0340c7930d0f30422926f408ba73929faa0b README
+SHA1 5640fe72fb8d139cdf0f6d16dfda48c905c23f6b README
 SHA1 06c410f05488c1612ed66b06d3a86b2580581e4a inc/Module/AutoInstall.pm
 SHA1 8a924add836b60fb23b25c8506d45945e02f42f4 inc/Module/Install.pm
 SHA1 61ab1dd37e33ddbe155907ce51df8a3e56ac8bbf inc/Module/Install/AutoInstall.pm
@@ -35,26 +35,26 @@ SHA1 9de7b5129351499c048328dfa718d0eab557cf30 inc/Module/Install/TrustMetaYml.pm
 SHA1 e4196994fa75e98bdfa2be0bdeeffef66de88171 inc/Module/Install/Win32.pm
 SHA1 c3a6d0d5b84feb3280622e9599e86247d58b0d18 inc/Module/Install/WriteAll.pm
 SHA1 26d58a041cd6b3d21db98b32e8fd1841aae21204 inc/Module/Package.pm
-SHA1 8d909d81d2f98514d42f67a972a489ff624a4183 inc/Module/Package/Dist/RDF.pm
+SHA1 c18deb3025b83dda8ac7c97f1e29599e1d2c7378 inc/Module/Package/Dist/RDF.pm
 SHA1 0e0eed2e69d9583081868cf4f220068d0a018568 inc/Scalar/Util.pm
 SHA1 feb933cefe2e3762e8322bd6071a2499f3440da1 inc/YAML/Tiny.pm
 SHA1 8105c0510a773b56840995fb4dd2dc64fe9ddaee inc/unicore/Name.pm
 SHA1 36df501c7c9b73c282c5174ed54d8283b2f2cbf2 inc/utf8.pm
-SHA1 96dd60a88fad5ce071a27a4948f4b94db2d6e796 lib/IO/Detect.pm
-SHA1 cd3127d7f17338728dafb3eaf567838064844cc3 meta/changes.pret
+SHA1 1b9804c7436cb1c7fff23e78880c53bd75b9393d lib/IO/Detect.pm
+SHA1 70d3b91f955b13c510795d49a47b9b36adc53273 meta/changes.pret
 SHA1 5c511179f8993bbbbcc33eba15ad8b9e24ac8768 meta/doap.pret
 SHA1 e13fef6efdea0678ebc76ac97c6f8e5bcd03de4a meta/makefile.pret
 SHA1 ddf959c45dcc107436c07d991ecfe096c1e1eca1 t/01basic.t
-SHA1 b9d56abffe8d5f484815fdce54ac927e345f114b t/02filehandles.t
-SHA1 7ada2d25d65a033fc687f75843ebeee0938df0bf t/03filenames.t
-SHA1 2a3477908e48ef279d464666e8221c8247abc387 t/04fileuris.t
+SHA1 79fc00b2b24f19ed08c4af9aa739fc34e273e030 t/02filehandles.t
+SHA1 0cd5a4d91a06140767cb6e8766231b38f339a529 t/03filenames.t
+SHA1 bf006873ab057f7b9b43e4ec6aa8034f29498591 t/04fileuris.t
 SHA1 e542e02ee0f653c4bb391e8a40c8b2cf808827dc t/05ducktype.t
-SHA1 b9e64a075a035805feccbaf121af85eacb347cb0 t/11ioall.t
-SHA1 6fab99b2d69575cf0b1b5933a6ff11df45072ac2 t/12pathclass.t
+SHA1 48dfb3a6902538e16344af06b1b80178f1f90949 t/11ioall.t
+SHA1 f594b493869a3a0496e617cab7ce3d0b773b355c t/12pathclass.t
 -----BEGIN PGP SIGNATURE-----
 Version: GnuPG v1.4.10 (GNU/Linux)
 
-iEYEARECAAYFAk/9+u4ACgkQzr+BKGoqfTmBugCcDpV4miLZx9ECkNEV32NF1Shy
-CW8AnjjDKzCDKDxoryrzsSnbCaiGkVBR
-=O3lB
+iEYEARECAAYFAlBHcRkACgkQzr+BKGoqfTllKQCgpw7QtMLnme6WRMlm5V7EWYvo
+D0oAnR1VpbcMnLrggdODaHvnkm4cuY/L
+=yYS6
 -----END PGP SIGNATURE-----

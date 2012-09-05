@@ -1,4 +1,4 @@
-use Test::More tests => 50;
+use Test::More;
 use IO::Detect qw( is_fileuri FileUri );
 use URI;
 
@@ -25,9 +25,16 @@ my @uris = qw(
 	(map { URI->new($_) } @uris),
 );
 
-ok(is_fileuri, sprintf("is_fileuri %s %s", ref $_, $_)) foreach @uris;
-ok($_ ~~ FileUri, sprintf("is_fileuri %s %s", ref $_, $_)) foreach @uris;
+if ($] >= 5.010)
+{
+	eval q[
+		ok(is_fileuri, sprintf("is_fileuri %s %s", ref $_, $_)) foreach @uris;
+		ok($_ ~~ FileUri, sprintf("is_fileuri %s %s", ref $_, $_)) foreach @uris;
+	];
+}
 
 ok not is_fileuri 'http://localhost/';
 
 ok not is_fileuri "http://localhost/\nfile://";
+
+done_testing();

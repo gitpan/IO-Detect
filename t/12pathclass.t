@@ -1,7 +1,7 @@
 use strict;
 use Test::More;
 BEGIN {
-	eval "use Path::Class 'file'; 1"
+	eval("use Path::Class 'file'; 1") && ($] >= 5.010)
 	or plan skip_all => "Need Path::Class for this test.";
 };
 

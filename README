@@ -56,6 +56,23 @@ DESCRIPTION
         This function actually returns an "interesting value of true". The
         value returned is a URI::file object.
 
+    "as_filehandle $thing, $mode"
+        Returns $thing if it is a filehandle; otherwise opens it with mode
+        $mode (croaking if it cannot be opened). $mode defaults to "<" (read
+        access).
+
+        This function is not exported by default, but needs to be requested
+        explicitly:
+
+                use IO::Detect qw(as_filehandle);
+
+        You may even specify a different default mode, or import it several
+        times with different names:
+
+                use IO::Detect 
+                  as_filehandle => { -as => 'as_filehandle_read',  mode => '<' },
+                  as_filehandle => { -as => 'as_filehandle_write', mode => '>' };
+
   Smart Matching
     You can import three constants for use in smart matching:
 
@@ -78,6 +95,9 @@ DESCRIPTION
     module attempts to do the right thing so that "FileHandle->new" still
     works, but there are conveivably places this could go wrong, or be plain
     old confusing.
+
+    Although "is_filehandle" and its friends support Perl 5.8 and above,
+    smart match is only available in Perl 5.10 onwards.
 
   Precedence
     Because there is some overlap/ambiguity between what is a filehandle and
@@ -128,8 +148,8 @@ SEE ALSO
     executable code.
 
     Various other modules that may be of interest, in no particular order...
-    Scalar::Util, FileHandle, IO::Handle, IO::Handle::Util, IO::All,
-    Path::Class, URI::file.
+    Scalar::Util, Scalar::Does, FileHandle, IO::Handle, IO::Handle::Util,
+    IO::All, Path::Class, URI::file.
 
 AUTHOR
     Toby Inkster <tobyink@cpan.org>.
